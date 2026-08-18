@@ -757,7 +757,7 @@
     }
 
     /* ============================================================ */
-    /* ===== قائمة واحدة للديسكتوب والموبايل مع زرار لغة واحد ===== */
+    /* ===== قائمة واحدة للديسكتوب والموبايل ===== */
     /* ============================================================ */
 
     /* القائمة الرئيسية */
@@ -767,7 +767,7 @@
       gap: 2rem !important;
     }
 
-    /* زر اللغة داخل القائمة - يظهر على كل الشاشات */
+    /* زر اللغة داخل القائمة */
     .nav-links .lang-btn {
       padding: 8px 20px !important;
       border: 1px solid rgba(0, 0, 0, 0.15) !important;
@@ -824,12 +824,15 @@
       transform: translateY(-9px) rotate(-45deg);
     }
 
-    /* ===== إعدادات الموبايل ===== */
+    /* ===== إعدادات الموبايل - تم الإصلاح النهائي للـ z-index والـ pointer-events ===== */
     @media (max-width: 768px) {
 
       /* إظهار زر الهامبرغر */
       .menu-toggle {
         display: flex !important;
+        z-index: 10001 !important;
+        pointer-events: auto !important;
+        position: relative !important;
       }
 
       /* القائمة نفسها تتحول لقائمة منزلقة */
@@ -840,6 +843,7 @@
         width: 75% !important;
         max-width: 320px !important;
         height: 100vh !important;
+        height: 100dvh !important;
         background-color: #ffffff !important;
         flex-direction: column !important;
         justify-content: center !important;
@@ -847,15 +851,18 @@
         gap: 20px !important;
         box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15) !important;
         transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        z-index: 1000 !important;
+        z-index: 10000 !important;
         padding: 2.5rem 1.5rem !important;
         border-left: 1px solid rgba(0, 0, 0, 0.06) !important;
         overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
         display: flex !important;
+        pointer-events: none !important;
       }
 
       .nav-links.active {
         right: 0 !important;
+        pointer-events: auto !important;
       }
 
       .nav-links a {
@@ -898,12 +905,12 @@
         display: none !important;
       }
 
-      /* Overlay */
+      /* ===== Overlay - تم الإصلاح ===== */
       .nav-overlay {
         position: fixed !important;
         inset: 0 !important;
         background: rgba(0, 0, 0, 0.4) !important;
-        z-index: 999 !important;
+        z-index: 9999 !important;
         opacity: 0 !important;
         pointer-events: none !important;
         transition: opacity 0.35s ease !important;
@@ -913,7 +920,77 @@
 
       .nav-overlay.active {
         opacity: 1 !important;
-        pointer-events: all !important;
+        pointer-events: auto !important;
+      }
+    }
+
+    /* ===== قفل تمرير الصفحة عند فتح القائمة على الموبايل (بديل آمن لـ overflow) ===== */
+    body.menu-open {
+      position: fixed;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* ===== إصلاح جوهري: رفع الـ header نفسه فوق الأوفرلاي وقت فتح القائمة =====
+       المشكلة: header عنده sticky + z-index فبيعمل stacking context جديد،
+       فأي z-index نحطه على .nav-links (اللي جواه) بيتحسب جوه الـ header بس
+       مش على مستوى الصفحة، فالأوفرلاي (z-index: 9999 على مستوى الصفحة) كان
+       بيترسم فوق القائمة بالكامل ويمنع أي كليك من الوصول للروابط. */
+    @media (max-width: 768px) {
+      body.menu-open header {
+        z-index: 10000 !important;
+      }
+    }
+
+    /* ===== ضبط دقيق لهيدر الـ Hero والـ Navbar على الشاشات الصغيرة ===== */
+    @media (max-width: 768px) {
+      header {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+
+      header nav {
+        padding-top: 0.6rem !important;
+        padding-bottom: 0.6rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      #heroSection {
+        padding-top: 6.5rem !important;
+        padding-bottom: 2.5rem !important;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+        min-height: auto !important;
+      }
+
+      #heroSection h1 {
+        font-size: 2.1rem !important;
+        line-height: 1.35 !important;
+      }
+
+      #heroSection .flex.flex-wrap.justify-start.gap-4 {
+        justify-content: center !important;
+        width: 100%;
+      }
+
+      #heroSection .flex.flex-wrap.justify-start.gap-4 a {
+        flex: 1 1 auto;
+        text-align: center;
+        min-width: 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #heroSection h1 {
+        font-size: 1.7rem !important;
+      }
+
+      .neon-btn,
+      .ghost-btn {
+        font-size: 0.85rem !important;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
       }
     }
 
@@ -948,7 +1025,7 @@
         <span class="display font-black text-lg tracking-tight hidden sm:inline" style="color:#000000;">Codela</span>
       </div>
 
-      <!-- ===== القائمة الواحدة مع زرار اللغة ===== -->
+      <!-- ===== القائمة الواحدة ===== -->
       <div class="nav-links" id="navLinks">
         <a href="#services" class="nav-link active text-sm" data-i18n="navServices">الخدمات</a>
         <a href="#work" class="nav-link text-sm" data-i18n="navWork">أعمالنا</a>
@@ -961,8 +1038,6 @@
 
       <!-- الأزرار الجانبية -->
       <div class="flex items-center gap-2">
-        <!-- زرار اللغة القديم - تم إخفاؤه نهائياً -->
-        <!-- <button class="hidden md:inline-flex ghost-btn rounded-full px-4 py-2 text-xs" id="langToggleBtnOld" onclick="toggleLanguage()">EN</button> -->
         <button class="neon-btn rounded-full px-4 md:px-6 py-2.5 text-xs md:text-sm" onclick="openModal()"
           data-i18n="navCta">
           ابدأ مشروعك
@@ -1865,7 +1940,7 @@
 
     setLanguage(localStorage.getItem('codela_lang') || 'ar');
 
-    /* ===================== Hamburger Menu - قائمة واحدة ===================== */
+    /* ===================== Hamburger Menu - قائمة واحدة - Z-Index Fixed ===================== */
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     const navOverlay = document.getElementById('navOverlay');
@@ -1875,7 +1950,7 @@
       if (menuToggle) menuToggle.classList.remove('open');
       if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
       if (navOverlay) navOverlay.classList.remove('active');
-      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
     }
 
     function toggleMenu() {
@@ -1884,32 +1959,36 @@
       menuToggle.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', isOpen);
       if (navOverlay) navOverlay.classList.toggle('active');
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      document.body.classList.toggle('menu-open', isOpen);
     }
 
     // زر الهامبرغر
     if (menuToggle) {
-      menuToggle.addEventListener('click', function (e) {
+      menuToggle.addEventListener('click', function(e) {
         e.stopPropagation();
         toggleMenu();
       });
     }
 
-    // روابط القائمة
+    // ===== روابط القائمة =====
     if (navLinks) {
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function (e) {
-          const href = this.getAttribute('href');
-          if (href && href.startsWith('#')) {
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+
+          if (href && href.indexOf('#') === 0) {
             e.preventDefault();
-            const targetId = href.substring(1);
-            const targetElement = document.getElementById(targetId);
+            var targetId = href.substring(1);
+            var targetElement = document.getElementById(targetId);
+
             if (targetElement) {
               closeMenu();
-              setTimeout(() => {
+              setTimeout(function() {
                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 350);
+              }, 400);
             }
+          } else if (href && href.indexOf('javascript:') === 0) {
+            closeMenu();
           } else {
             closeMenu();
           }
@@ -1919,21 +1998,28 @@
 
     // Overlay
     if (navOverlay) {
-      navOverlay.addEventListener('click', function () {
+      navOverlay.addEventListener('click', function() {
         closeMenu();
       });
     }
 
     // إغلاق عند تغيير حجم الشاشة
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', function() {
       if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    // إغلاق القائمة عند الضغط على زر Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
         closeMenu();
       }
     });
 
     // منع غلق القائمة عند الضغط داخلها
     if (navLinks) {
-      navLinks.addEventListener('click', function (e) {
+      navLinks.addEventListener('click', function(e) {
         e.stopPropagation();
       });
     }
@@ -1942,10 +2028,8 @@
 
     const glow = document.getElementById('mouseGlow');
     window.addEventListener('mousemove', (e) => {
-      if (glow) {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
-      }
+      if (glow) { glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px'; }
     });
 
     const observer = new IntersectionObserver((entries) => {
