@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="metaTitle">Codela | حلول رقمية متكاملة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8F8F8;
+      --card: #F0F0F0;
+      --line: #E5E5E5;
+      --neon: #000000;
+      --neon-dim: #333333;
+      --ink: #111111;
+      --mute: #666666;
+    }
+
+    * {
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .display {
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: #FFFFFF;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: #000000;
+      color: #FFFFFF;
+    }
+
+    .noise::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .glow-text {
+      text-shadow: 0 0 40px rgba(0, 0, 0, .15);
+    }
+
+    .neon-btn {
+      background: #000000;
+      color: #FFFFFF;
+      font-weight: 800;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      transition: box-shadow .35s ease, transform .2s ease, background .2s ease;
+    }
+
+    .neon-btn:hover {
+      box-shadow: 0 0 35px rgba(0, 0, 0, .25);
+      transform: translateY(-2px);
+    }
+
+    .ghost-btn {
+      border: 1px solid rgba(0, 0, 0, .18);
+      color: var(--ink);
+      font-weight: 700;
+      transition: all .25s ease;
+    }
+
+    .ghost-btn:hover {
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .nav-link {
+      position: relative;
+      color: #555555;
+      font-weight: 600;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #000000;
+      transition: width .25s ease;
+    }
+
+    html[dir="ltr"] .nav-link::after {
+      right: auto;
+      left: 0;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #000000;
+    }
+
+    /* ===== Partners marquee ===== */
+    .partners-wrap {
+      position: relative;
+    }
+
+    .marquee-overflow {
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: scroll-left 32s linear infinite;
+    }
+
+    .marquee-track.paused {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-left {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .partner-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+      height: 70px;
+      margin: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 0 12px;
+      color: var(--mute);
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      white-space: nowrap;
+      transition: border-color .25s ease, color .25s ease;
+    }
+
+    .partner-logo:hover {
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .marquee-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, .15);
+      background: rgba(255, 255, 255, .8);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .marquee-btn:hover {
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .marquee-btn--prev {
+      right: -6px;
+    }
+
+    .marquee-btn--next {
+      left: -6px;
+    }
+
+    /* ===== Services accordion ===== */
+    .service-row {
+      border-top: 1px solid var(--line);
+      transition: background .3s ease;
+      cursor: pointer;
+    }
+
+    .service-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .service-row:hover {
+      background: linear-gradient(90deg, rgba(0, 0, 0, .04), transparent);
+    }
+
+    .service-num {
+      color: transparent;
+      -webkit-text-stroke: 1.5px #CCCCCC;
+      transition: .3s ease;
+    }
+
+    .service-row:hover .service-num {
+      -webkit-text-stroke: 1.5px #000000;
+    }
+
+    .service-arrow {
+      transition: transform .3s ease, background .3s ease, color .3s ease;
+    }
+
+    .service-row.open .service-arrow {
+      transform: rotate(45deg) scale(1.08);
+      background: #000000;
+      color: #FFFFFF;
+    }
+
+    .service-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .4s ease;
+      background: rgba(0, 0, 0, .02);
+    }
+
+    .service-panel.open {
+      max-height: 320px;
+      padding: 0 1rem 1.75rem 1rem;
+    }
+
+    .service-panel-inner {
+      color: var(--mute);
+      font-size: .9rem;
+      line-height: 1.9;
+      padding-top: .25rem;
+    }
+
+    /* ===== Work carousel ===== */
+    .video-strip-wrap {
+      position: relative;
+      margin-top: 1.5rem;
+    }
+
+    .video-strip {
+      position: relative;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-wrap {
+      position: absolute;
+      width: 220px;
+      height: 340px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, #F5F5F5, #E8E8E8);
+      transition: transform .45s ease, opacity .45s ease, filter .45s ease;
+    }
+
+    .video-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-wrap .vw-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(6px);
+      font-size: 11px;
+      text-align: center;
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+
+    .card-active {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0) scale(1) rotate(0);
+      z-index: 3;
+    }
+
+    .card-prev {
+      opacity: .75;
+      filter: blur(4px);
+      transform: translateX(-58%) scale(.86) rotate(-6deg);
+      z-index: 2;
+    }
+
+    .card-next {
+      opacity: .75;
+      filter: blur(4px);
+      transform: translateX(58%) scale(.86) rotate(6deg);
+      z-index: 2;
+    }
+
+    .vs-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 6;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, .15);
+      background: rgba(255, 255, 255, .8);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .vs-arrow:hover {
+      border-color: #000000;
+      color: #000000;
+    }
+
+    .vs-arrow--prev {
+      right: 4%;
+    }
+
+    .vs-arrow--next {
+      left: 4%;
+    }
+
+    .video-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .video-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #CCCCCC;
+      transition: .25s ease;
+    }
+
+    .video-dot.active {
+      background: #000000;
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    /* media placeholder (drop your own screenshots here) */
+    .media-slot {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      text-align: center;
+      padding: 1rem;
+      background: #F5F5F5;
+      border: none;
+      color: var(--mute);
+      font-size: .75rem;
+      line-height: 1.6;
+    }
+
+    .media-slot .ms-icon {
+      font-size: 1.5rem;
+    }
+
+    .media-slot code {
+      display: block;
+      margin-top: .3rem;
+      font-size: .66rem;
+      color: #000000;
+      direction: ltr;
+      unicode-bidi: plaintext;
+    }
+
+    /* ===== Results / value cards ===== */
+    .case-item {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .case-img-wrap {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+
+    .case-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .case-body {
+      padding: 1.25rem;
+    }
+
+    .case-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .9rem;
+    }
+
+    .case-ba {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+
+    .ba-col {
+      display: flex;
+      flex-direction: column;
+      font-size: .8rem;
+      max-width: 45%;
+    }
+
+    .ba-label {
+      color: var(--mute);
+    }
+
+    .ba-label.accent {
+      color: #000000;
+    }
+
+    .ba-val {
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.6;
+    }
+
+    .ba-val.accent {
+      color: #000000;
+    }
+
+    .ba-arr {
+      color: #000000;
+      flex-shrink: 0;
+    }
+
+    /* ===== Stats ===== */
+    .stats-band {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 2.5rem 1rem;
+      background: radial-gradient(120% 140% at 50% 0%, rgba(0, 0, 0, .04), transparent 60%), var(--card);
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .stat-rule {
+      width: 1px;
+      height: 50px;
+      background: var(--line);
+    }
+
+    @media (max-width: 640px) {
+      .stat-rule {
+        display: none;
+      }
+    }
+
+    /* ===== Scroll reveal ===== */
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .scroll-fade.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUpIn .7s ease forwards;
+    }
+
+    @keyframes fadeUpIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-side {
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+
+    .hero-side-ready .hero-side {
+      opacity: 1;
+    }
+
+    .mouse-glow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle, rgba(0, 0, 0, .06), transparent 65%);
+      transform: translate(-50%, -50%);
+    }
+
+    /* ===== Modal ===== */
+    #clientModal {
+      transition: opacity .25s ease;
+    }
+
+    .step-panel {
+      display: none;
+    }
+
+    .step-panel.active {
+      display: block;
+      animation: fadeUp .35s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: #E5E5E5;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #000000, #333333);
+      transition: width .4s ease;
+    }
+
+    input[type=text],
+    input[type=tel],
+    input[type=email],
+    select,
+    textarea {
+      background: #FFFFFF;
+      border: 1px solid #E5E5E5;
+      color: #000;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #000000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, .1);
+    }
+
+    .choice-pill {
+      border: 1px solid #E5E5E5;
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .choice-pill.selected,
+    .choice-pill:hover {
+      border-color: #000000;
+      background: rgba(0, 0, 0, .06);
+      color: #000000;
+    }
+
+    /* ===== LTR (English) alignment fixes — same design, mirrored direction ===== */
+    html[dir="ltr"] .align-flip {
+      text-align: left;
+    }
+
+    html[dir="ltr"] .items-flip {
+      align-items: flex-start;
+    }
+
+    html[dir="ltr"] .justify-flip {
+      justify-content: flex-start;
+    }
+
+    /* video responsive fix */
+    .media-slot video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== Hero Videos - أكثر وضوحاً ===== */
+    .hero-video-wrapper {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .hero-video-wrapper:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+    }
+
+    .hero-video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-video-wrapper .media-slot {
+      background: #F8F8F8;
+      border: none;
+      padding: 0;
+    }
+
+    .hero-video-wrapper .media-slot video {
+      border-radius: 24px;
+    }
+
+    /* تحسين ظهور الفيديوهات على الشاشات الصغيرة */
+    @media (max-width: 1024px) {
+      .hero-video-wrapper {
+        border-radius: 16px;
+      }
+
+      .hero-video-wrapper .media-slot video {
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .video-strip {
+        height: 280px;
+      }
+
+      .video-wrap {
+        width: 150px;
+        height: 240px;
+      }
+
+      .card-prev {
+        transform: translateX(-45%) scale(.8) rotate(-4deg);
+      }
+
+      .card-next {
+        transform: translateX(45%) scale(.8) rotate(4deg);
+      }
+
+      .vs-arrow--prev {
+        right: 2%;
+      }
+
+      .vs-arrow--next {
+        left: 2%;
+      }
+
+      .vs-arrow {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .video-strip {
+        height: 220px;
+      }
+
+      .video-wrap {
+        width: 120px;
+        height: 190px;
+      }
+
+      .card-prev {
+        transform: translateX(-35%) scale(.75) rotate(-3deg);
+      }
+
+      .card-next {
+        transform: translateX(35%) scale(.75) rotate(3deg);
+      }
+    }
+
+    /* ============================================================ */
+    /* ===== التعديلات المطلوبة للشاشات تحت 768px (المطلوبة) ===== */
+    /* ============================================================ */
+    @media (max-width: 768px) {
+
+      /* 1. ضبط الحاوية الرئيسية للهيرو لتجنب التداخل */
+      .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      /* 2. تصغير حجم الخطوط العريضة لتدخل بشكل مناسب في شاشة الموبايل */
+      .hero-title {
+        font-size: 1.5rem !important;
+        line-height: 1.4;
+      }
+
+      /* 3. منع تداخل الأزرار وترتيبها تحت بعضها */
+      .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      .hero-buttons button,
+      .hero-buttons a {
+        width: 90% !important;
+        max-width: 280px;
+      }
+
+      /* 4. ضبط صندوق الخدمات الأبيض وتجنب خروجه عن الشاشة */
+      .services-card-mobile {
+        width: 92% !important;
+        margin: 0 auto;
+        position: relative;
+        top: auto;
+        transform: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+    }
+  </style>
+</head>
+
+<body class="noise relative" style="background-color: #FFFFFF;">
+
+  <div class="mouse-glow hidden md:block" id="mouseGlow"></div>
+
+  <!-- ============================================================ -->
+  <!-- NAVBAR -->
+  <!-- ============================================================ -->
+  <header class="sticky top-0 z-40 px-4 md:px-8 pt-4">
+    <nav
+      class="max-w-7xl mx-auto flex items-center justify-between bg-[#FFFFFF]/90 backdrop-blur-lg border border-black/10 rounded-full px-4 md:px-6 py-3">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-full bg-[#000000] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 4L20 12L6 20V4Z" fill="#FFFFFF" />
+          </svg>
+        </div>
+        <span class="display font-black text-lg tracking-tight hidden sm:inline" style="color:#000000;">Codela</span>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="#services" class="nav-link active text-sm" data-i18n="navServices">الخدمات</a>
+        <a href="#work" class="nav-link text-sm" data-i18n="navWork">أعمالنا</a>
+        <a href="#results" class="nav-link text-sm" data-i18n="navResults">ليه Codela</a>
+        <a href="#about" class="nav-link text-sm" data-i18n="navAbout">من نحن</a>
+        <a href="#footer" class="nav-link text-sm" data-i18n="navContact">تواصل معنا</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button class="hidden md:inline-flex ghost-btn rounded-full px-4 py-2 text-xs" id="langToggleBtn"
+          onclick="toggleLanguage()">EN</button>
+        <button class="neon-btn rounded-full px-4 md:px-6 py-2.5 text-xs md:text-sm" onclick="openModal()"
+          data-i18n="navCta">
+          ابدأ مشروعك
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- HERO - الفيديوهات أوضح وأكبر -->
+  <!-- ============================================================ -->
+  <section class="relative min-h-screen flex items-center overflow-hidden px-4 md:px-12 pt-24 pb-12" id="heroSection"
+    style="background-color: #FFFFFF;">
+
+    <!-- خلفية بصرية بالفيديوهات -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <div class="absolute inset-0 flex justify-center items-center gap-6 max-w-7xl mx-auto px-4 opacity-80">
+
+        <!-- الفيديو الأول - يسار -->
+        <div class="hidden lg:block hero-video-wrapper w-[280px] h-[520px] transform -rotate-6 translate-y-8">
+          <div class="media-slot w-full h-full relative">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+              <source src="./vi-image/WhatsApp Video 2026-08-17 at 1.11.55 PM.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <!-- الفيديو الثاني - المنتصف (الأكبر) -->
+        <div class="hero-video-wrapper w-full lg:w-[340px] h-[580px] z-10 shadow-2xl">
+          <div class="media-slot w-full h-full relative">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+              <source src="./vi-image/WhatsApp Video 2026-08-17 at 12.44.04 PM.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <!-- الفيديو الثالث - يمين -->
+        <div class="hidden lg:block hero-video-wrapper w-[280px] h-[520px] transform rotate-6 translate-y-8">
+          <div class="media-slot w-full h-full relative">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+              <source src="./vi-image/WhatsApp Video 2026-08-17 at 12.44.27 PM.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-[#FFFFFF]/70 to-[#FFFFFF]/30"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#FFFFFF]/20 via-transparent to-[#FFFFFF]/80"></div>
+    </div>
+
+    <!-- المحتوى -->
+    <div class="relative z-10 max-w-7xl w-full mx-auto align-flip items-flip flex flex-col items-start"
+      style="text-align:right;">
+
+      <div class="fade-up inline-block bg-black/5 border border-black/10 px-4 py-1.5 rounded-full mb-6 backdrop-blur-md"
+        style="animation-delay:.18s">
+        <span class="text-black text-xs md:text-sm font-medium" data-i18n="heroBadge">حلول رقمية متكاملة لبراندك</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-wider leading-tight mb-6">
+        <span class="fade-up block text-black mb-2" style="animation-delay:.28s" data-i18n="heroLine1">نحوّل
+          أفكارك</span>
+        <span class="fade-up block text-black glow-text" style="animation-delay:.44s">Codela</span>
+        <span class="fade-up block text-black" style="animation-delay:.6s" data-i18n="heroLine3">لحلول رقمية
+          بتفرق</span>
+      </h1>
+
+      <div class="fade-up max-w-2xl" style="animation-delay:.82s">
+        <p class="text-[var(--mute)] text-base md:text-xl mb-10 leading-relaxed" data-i18n="heroDesc">Social Media،
+          تصميم جرافيك، مواقع ويب، وأنظمة إدارة أونلاين وأوفلاين — كل اللي محتاجه براندك تحت سقف واحد.</p>
+        <div class="flex flex-wrap justify-start gap-4 mb-16">
+          <a href="javascript:void(0)" onclick="openModal()"
+            class="bg-[#000000] text-white font-bold px-8 py-4 rounded-full text-base transition-transform hover:scale-105 shadow-[0_0_25px_rgba(0,0,0,0.25)]"
+            data-i18n="heroCta1">ابدأ مشروعك</a>
+          <a href="#services"
+            class="border border-black/20 text-black font-medium px-8 py-4 rounded-full text-base hover:bg-black/5 transition-all"
+            data-i18n="heroCta2">اعرف خدماتنا</a>
+        </div>
+      </div>
+
+      <!-- ===== قسم إحصائيات المتابعين (تم التعديل) ===== -->
+      <div
+        class="fade-up flex items-center justify-start gap-8 bg-white/90 border border-black/10 px-8 py-4 rounded-2xl backdrop-blur-md flex-wrap shadow-sm"
+        style="animation-delay:1.05s">
+
+        <!-- فيسبوك -->
+        <div class="flex items-center gap-3 text-black">
+          <span class="text-2xl">📱</span>
+          <div class="text-right align-flip">
+            <strong class="block text-sm font-bold" data-i18n="chipFacebook">فيسبوك</strong>
+            <span class="text-xs text-black/60">10K متابع</span>
+          </div>
+        </div>
+
+        <div class="w-px h-8 bg-black/20 hidden sm:block"></div>
+
+        <!-- إنستغرام -->
+        <div class="flex items-center gap-3 text-black">
+          <span class="text-2xl">🎨</span>
+          <div class="text-right align-flip">
+            <strong class="block text-sm font-bold" data-i18n="chipInstagram">إنستغرام</strong>
+            <span class="text-xs text-black/60">12 متابع</span>
+          </div>
+        </div>
+
+        <div class="w-px h-8 bg-black/20 hidden sm:block"></div>
+
+        <!-- تيك توك -->
+        <div class="flex items-center gap-3 text-black">
+          <span class="text-2xl">💻</span>
+          <div class="text-right align-flip">
+            <strong class="block text-sm font-bold" data-i18n="chipTikTok">تيك توك</strong>
+            <span class="text-xs text-black/60">339 متابع</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PARTNERS MARQUEE -->
+  <!-- ============================================================ -->
+  <section class="py-10 border-y border-black/10 mt-8" style="background-color: #FFFFFF;">
+    <p class="text-center text-xs tracking-[0.3em] text-[var(--mute)] mb-6 display font-bold" data-i18n="clientsLabel">
+      عملائنا</p>
+    <div class="overflow-hidden">
+      <div class="flex gap-16 items-center opacity-70 animate-marquee">
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Oppo</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Netflix</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">KP</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Haier</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">LG</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Oppo</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Netflix</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">KP</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">Haier</span>
+        <span class="display font-black text-2xl whitespace-nowrap px-6 text-black">LG</span>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .animate-marquee {
+      animation: marquee 32s linear infinite;
+      width: max-content;
+    }
+
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+  </style>
+
+  <!-- ============================================================ -->
+  <!-- SERVICES -->
+  <!-- ============================================================ -->
+  <section id="services" class="px-4 md:px-8 py-20 md:py-28 max-w-7xl mx-auto scroll-fade rounded-3xl my-8"
+    style="background-color: #F8F8F8;">
+    <p class="text-[#000000] font-bold text-sm mb-3 display tracking-widest" data-i18n="svcEyebrow">إحنا مختلفين</p>
+    <h2 class="display font-black text-4xl md:text-6xl leading-tight max-w-3xl mb-16 text-black" data-i18n="svcTitle">
+      خدماتنا الأساسية، وعارفينها كويس
+    </h2>
+
+    <div class="svc-list">
+
+      <div class="svc-item border-b border-black/10">
+        <div
+          class="service-row flex flex-col md:flex-row md:items-center gap-4 md:gap-10 py-8 md:py-10 px-2 md:px-4 cursor-pointer"
+          data-service="1" onclick="toggleService('1')" role="button" tabindex="0" aria-expanded="false"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleService('1')}">
+          <span class="service-num display font-black text-5xl md:text-6xl w-24">01</span>
+          <h3 class="display font-black text-2xl md:text-3xl md:w-72 text-black" data-i18n="svc1Title">موقع ويب تعريفي
+          </h3>
+          <p class="text-[var(--mute)] flex-1 leading-relaxed" data-i18n="svc1Desc">
+            نصمم لك موقعًا احترافيًا يعكس هوية نشاطك ويمنح عملاءك تجربة استخدام سريعة وسهلة على جميع الأجهزة، مع ربط
+            مباشر بواتساب ونموذج تواصل وتحسينات أساسية لمحركات البحث.
+          </p>
+          <button
+            class="service-arrow w-11 h-11 rounded-full border border-black/15 flex items-center justify-center shrink-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="service-panel" id="svc-panel-1">
+          <div class="service-panel-inner pb-6 px-4 text-[var(--mute)]" data-i18n="svc1Panel">
+            تصميم عصري متجاوب Responsive يشتغل ممتاز على الموبايل والتابلت والكمبيوتر، مع سرعة تحميل عالية وأساسيات
+            SEO عشان موقعك يظهر في البحث، وربط مباشر بواتساب ونموذج تواصل جاهز يستقبل طلبات عملائك فورًا.
+          </div>
+        </div>
+      </div>
+
+      <div class="svc-item border-b border-black/10">
+        <div
+          class="service-row flex flex-col md:flex-row md:items-center gap-4 md:gap-10 py-8 md:py-10 px-2 md:px-4 cursor-pointer"
+          data-service="2" onclick="toggleService('2')" role="button" tabindex="0" aria-expanded="false"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleService('2')}">
+          <span class="service-num display font-black text-5xl md:text-6xl w-24">02</span>
+          <h3 class="display font-black text-2xl md:text-3xl md:w-72 text-black" data-i18n="svc2Title">نظام أونلاين</h3>
+          <p class="text-[var(--mute)] flex-1 leading-relaxed" data-i18n="svc2Desc">
+            نظام إدارة كامل يشتغل أونلاين بلوحة تحكم احترافية وصلاحيات مستخدمين، يخليك تدير مبيعاتك ومخزونك لحظة
+            بلحظة وتتابع شغلك من أي مكان وفي أي وقت، من الموبايل أو الكمبيوتر.
+          </p>
+          <button
+            class="service-arrow w-11 h-11 rounded-full border border-black/15 flex items-center justify-center shrink-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="service-panel" id="svc-panel-2">
+          <div class="service-panel-inner pb-6 px-4 text-[var(--mute)]" data-i18n="svc2Panel">
+            إدارة بيانات مركزية، نسخ احتياطي تلقائي، ومتابعة لحظية للمخزون والمبيعات — كل حاجة في مكان واحد تقدر
+            توصله من أي جهاز، عشان تدير مشروعك من أي مكان في أي وقت من غير ما تكون قاعد في المكتب.
+          </div>
+        </div>
+      </div>
+
+      <div class="svc-item">
+        <div
+          class="service-row flex flex-col md:flex-row md:items-center gap-4 md:gap-10 py-8 md:py-10 px-2 md:px-4 cursor-pointer"
+          data-service="3" onclick="toggleService('3')" role="button" tabindex="0" aria-expanded="false"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleService('3')}">
+          <span class="service-num display font-black text-5xl md:text-6xl w-24">03</span>
+          <h3 class="display font-black text-2xl md:text-3xl md:w-72 text-black" data-i18n="svc3Title">نظام أوفلاين</h3>
+          <p class="text-[var(--mute)] flex-1 leading-relaxed" data-i18n="svc3Desc">
+            برنامج إدارة قوي ومستقر يشتغل على جهاز الكمبيوتر بدون إنترنت خالص — فواتير بيع وشراء، إدارة مخزون
+            وعملاء وموردين، صلاحيات مستخدمين، وتقارير يومية وشهرية وسنوية بقاعدة بيانات محلية.
+          </p>
+          <button
+            class="service-arrow w-11 h-11 rounded-full border border-black/15 flex items-center justify-center shrink-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="service-panel" id="svc-panel-3">
+          <div class="service-panel-inner pb-6 px-4 text-[var(--mute)]" data-i18n="svc3Panel">
+            مناسب لأي نشاط محتاج نظام إدارة ثابت وموثوق من غير قلق الإنترنت: نظام بحث سريع، إضافة وخصم كميات،
+            متابعة الكميات لحظيًا، وتقارير مفصّلة تساعدك تاخد قرارات صح بسرعة.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- WORK -->
+  <!-- ============================================================ -->
+  <section id="work" class="px-4 md:px-8 py-20 max-w-7xl mx-auto scroll-fade rounded-3xl my-8"
+    style="background-color: #FFFFFF;">
+    <p class="text-[#000000] font-bold text-sm mb-3 display tracking-widest" data-i18n="workEyebrow">أعمالنا</p>
+    <h2 class="display font-black text-4xl md:text-6xl leading-tight mb-4 text-black" data-i18n="workTitle">كل مشروع
+      بنشتغل عليه
+      بجدية</h2>
+    <p class="text-[var(--mute)] max-w-2xl mb-14" data-i18n="workDesc">
+      من الموقع التعريفي البسيط لأنظمة الإدارة المتكاملة، بنحول احتياجك لحل رقمي شغال وسهل الاستخدام.
+    </p>
+
+    <div class="work-services space-y-16">
+
+      <!-- القسم الأول: مواقع ويب تعريفية -->
+      <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat1Title">مواقع ويب
+            تعريفية</h3>
+          <p class="text-[var(--mute)] leading-relaxed" data-i18n="workCat1Desc">مواقع احترافية متجاوبة، سريعة التحميل،
+            ومترابطة مع واتساب ونموذج تواصل.</p>
+        </div>
+        <div class="video-strip-wrap">
+          <div class="video-strip">
+            <div class="video-wrap card-prev">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-17 at 10.54.18 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-active">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-17 at 3.39.56 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-next">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-17 at 6.17.33 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+          <button class="vs-arrow vs-arrow--prev" aria-label="prev" onclick="rotateCarousel(this, -1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button class="vs-arrow vs-arrow--next" aria-label="next" onclick="rotateCarousel(this, 1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </button>
+          <div class="video-dots"><span class="video-dot"></span><span class="video-dot active"></span><span
+              class="video-dot"></span></div>
+        </div>
+      </div>
+
+      <!-- القسم الثاني: أنظمة أونلاين وأوفلاين (مدمجين في قسم واحد) -->
+      <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat2Title">أنظمة أونلاين
+            وأوفلاين</h3>
+          <p class="text-[var(--mute)] leading-relaxed" data-i18n="workCat2Desc">لوحات تحكم كاملة أونلاين لإدارة
+            المبيعات والمخزون من أي مكان، وبرامج مكتبية قوية أوفلاين للفواتير والمخزون والتقارير، تشتغل من غير إنترنت
+            خالص.</p>
+        </div>
+        <div class="video-strip-wrap">
+          <div class="video-strip">
+            <div class="video-wrap card-prev">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-17 at 4.18.18 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-active">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-18 at 12.31.04 PM (1).mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-next">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-18 at 12.33.50 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+          <button class="vs-arrow vs-arrow--prev" aria-label="prev" onclick="rotateCarousel(this, -1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button class="vs-arrow vs-arrow--next" aria-label="next" onclick="rotateCarousel(this, 1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </button>
+          <div class="video-dots"><span class="video-dot"></span><span class="video-dot active"></span><span
+              class="video-dot"></span></div>
+        </div>
+      </div>
+
+      <!-- القسم الثالث: سوشيال ميديا وجرافيك ديزاين -->
+      <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat3Title">سوشيال ميديا
+            وجرافيك ديزاين
+          </h3>
+          <p class="text-[var(--mute)] leading-relaxed" data-i18n="workCat3Desc">محتوى فيرال جذاب، تصاميم بصرية
+            احترافية، وإدارة شاملة لحسابات السوشيال ميديا لتعزيز انتشار براندك.</p>
+        </div>
+        <div class="video-strip-wrap">
+          <div class="video-strip">
+            <div class="video-wrap card-prev">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-18 at 12.15.39 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-active">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-18 at 12.15.27 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="video-wrap card-next">
+              <div class="media-slot w-full h-full relative">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                  <source src="./vi-image/WhatsApp Video 2026-08-17 at 1.10.34 PM.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+          <button class="vs-arrow vs-arrow--prev" aria-label="prev" onclick="rotateCarousel(this, -1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button class="vs-arrow vs-arrow--next" aria-label="next" onclick="rotateCarousel(this, 1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </button>
+          <div class="video-dots"><span class="video-dot"></span><span class="video-dot active"></span><span
+              class="video-dot"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- RESULTS -->
+  <!-- ============================================================ -->
+  <section id="results" class="px-4 md:px-8 py-20 max-w-7xl mx-auto scroll-fade rounded-3xl my-8"
+    style="background-color: #F8F8F8;">
+    <p class="text-[#000000] font-bold text-sm mb-3 display tracking-widest" data-i18n="whyEyebrow">ليه Codela</p>
+    <h2 class="display font-black text-4xl md:text-6xl leading-tight mb-14 text-black" data-i18n="whyTitle">من التحدي
+      للحل</h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="case-item">
+        <div class="case-img-wrap">
+          <div class="media-slot w-full h-full relative">
+            <img
+              src="./vi-image/screencapture-file-C-Users-HP-Desktop-Codela-s-Project-Codela-Project-index-html-2026-08-17-14_26_37.png"
+              alt="موقع ويب تعريفي" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-header">
+            <h3 class="display font-black text-lg text-black" data-i18n="why1Name">موقع ويب تعريفي</h3>
+          </div>
+          <div class="case-ba">
+            <div class="ba-col"><span class="ba-label" data-i18n="beforeLabel">التحدي</span><span class="ba-val"
+                data-i18n="why1Before">عملاء بيدوروا عليك ومش لاقيين موقع يمثلك</span></div>
+            <svg class="ba-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+            <div class="ba-col"><span class="ba-label accent" data-i18n="afterLabel">الحل</span><span
+                class="ba-val accent" data-i18n="why1After">موقع احترافي متجاوب يوصلهم بيك بسهولة</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-img-wrap">
+          <div class="media-slot w-full h-full relative">
+            <img src="./vi-image/47788f242678675.6971e87c55981.png" alt="نظام أونلاين"
+              class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-header">
+            <h3 class="display font-black text-lg text-black" data-i18n="why2Name">نظام أونلاين</h3>
+          </div>
+          <div class="case-ba">
+            <div class="ba-col"><span class="ba-label" data-i18n="beforeLabel">التحدي</span><span class="ba-val"
+                data-i18n="why2Before">تقدر تدير شغلك من مكان واحد بس</span></div>
+            <svg class="ba-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+            <div class="ba-col"><span class="ba-label accent" data-i18n="afterLabel">الحل</span><span
+                class="ba-val accent" data-i18n="why2After">تابع مبيعاتك ومخزونك من أي مكان وأي وقت</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-img-wrap">
+          <div class="media-slot w-full h-full relative">
+            <img src="./vi-image/image8.png" alt="نظام أوفلاين" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-header">
+            <h3 class="display font-black text-lg text-black" data-i18n="why3Name">نظام أوفلاين</h3>
+          </div>
+          <div class="case-ba">
+            <div class="ba-col"><span class="ba-label" data-i18n="beforeLabel">التحدي</span><span class="ba-val"
+                data-i18n="why3Before">فواتير وتقارير يدوية بتضيع وقتك ودقتك</span></div>
+            <svg class="ba-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+            <div class="ba-col"><span class="ba-label accent" data-i18n="afterLabel">الحل</span><span
+                class="ba-val accent" data-i18n="why3After">نظام واحد يدير المبيعات والمخزون والتقارير بدقة</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- STATS -->
+  <!-- ============================================================ -->
+  <section id="stats" class="px-4 md:px-8 py-16 max-w-7xl mx-auto scroll-fade rounded-3xl my-8"
+    style="background-color: #FFFFFF;">
+    <div class="stats-band">
+      <div class="text-center p-6 rounded-2xl" style="background-color: #F0F0F0 !important;">
+        <p class="display font-black text-3xl md:text-4xl text-black" data-i18n="pillar1">Social + Design
+        </p>
+        <p class="text-[var(--mute)] mt-2 text-sm" data-i18n="pillar1Sub">هوية بصرية وحضور رقمي متكامل</p>
+      </div>
+      <div class="stat-rule"></div>
+      <div class="text-center p-6 rounded-2xl" style="background-color: #F0F0F0 !important;">
+        <p class="display font-black text-3xl md:text-4xl text-black" data-i18n="pillar2">Web & Online</p>
+        <p class="text-[var(--mute)] mt-2 text-sm" data-i18n="pillar2Sub">مواقع وأنظمة إدارة أونلاين</p>
+      </div>
+      <div class="stat-rule"></div>
+      <div class="text-center p-6 rounded-2xl" style="background-color: #F0F0F0 !important;">
+        <p class="display font-black text-3xl md:text-4xl text-black" data-i18n="pillar3">Offline Systems
+        </p>
+        <p class="text-[var(--mute)] mt-2 text-sm" data-i18n="pillar3Sub">برامج إدارة تشتغل بدون إنترنت</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ABOUT -->
+  <!-- ============================================================ -->
+  <section id="about" class="px-4 md:px-8 py-20 max-w-7xl mx-auto scroll-fade rounded-3xl my-8"
+    style="background-color: #F8F8F8;">
+    <div class="grid lg:grid-cols-2 gap-10 items-end mb-14">
+      <div>
+        <p class="text-[#000000] font-bold text-sm mb-3 display tracking-widest" data-i18n="aboutEyebrow">من إحنا
+        </p>
+        <h2 class="display font-black text-4xl md:text-6xl leading-tight text-black" data-i18n="aboutTitle">Codela
+          لحلولك الرقمية
+        </h2>
+      </div>
+      <p class="text-[var(--mute)] leading-relaxed" data-i18n="aboutBody">
+        Codela شركة متخصصة في مساعدة الشركات والأفراد على بناء حضور رقمي متكامل: من إدارة السوشيال ميديا والتصميم
+        الجرافيكي، لتصميم المواقع الاحترافية، لأنظمة الإدارة الأونلاين والأوفلاين. بنحول احتياجاتك التقنية لحلول
+        عملية وسهلة الاستخدام تناسب طبيعة شغلك.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================================ -->
+  <section id="footer" class="px-4 md:px-8 pt-16 pb-8 border-t border-black/10 mt-10 rounded-3xl"
+    style="background-color: #F8F8F8;">
+    <div class="max-w-7xl mx-auto flex flex-col items-center text-center gap-3 mb-10">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-full bg-[#000000] flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 4L20 12L6 20V4Z" fill="#FFFFFF" />
+          </svg>
+        </div>
+        <span class="display font-black text-lg text-black">Codela</span>
+      </div>
+      <p class="text-[var(--mute)] text-sm" data-i18n="footerTag">حلول رقمية متكاملة. نتايج حقيقية.</p>
+      <button class="neon-btn rounded-full px-6 py-3 text-sm mt-2" onclick="openModal()" data-i18n="footerCta">ابدأ
+        مشروعك مع Codela</button>
+    </div>
+
+    <div
+      class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-black/10 pt-6">
+      <nav class="flex flex-wrap items-center gap-6 text-sm text-[var(--mute)]">
+        <a href="#services" class="hover:text-[#000000]" data-i18n="navServices">الخدمات</a>
+        <a href="#work" class="hover:text-[#000000]" data-i18n="navWork">أعمالنا</a>
+        <a href="#about" class="hover:text-[#000000]" data-i18n="navAbout">من نحن</a>
+        <a href="#footer" class="hover:text-[#000000]" data-i18n="navContact">تواصل معنا</a>
+      </nav>
+      <div class="flex items-center gap-4 flex-wrap justify-center">
+        <div class="flex gap-3">
+          <a href="https://www.tiktok.com/@codela.eg?_r=1&_t=ZS-98uoXHZOdWf" target="_blank" rel="noopener noreferrer"
+            aria-label="TikTok"
+            class="w-9 h-9 rounded-full border border-black/15 flex items-center justify-center hover:border-[#000000] hover:text-[#000000] text-black">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" />
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/codelatech?igsh=MW9sZ2RwYWpvbDRpdg%3D%3D&igsi=MW9sZ2RwYWpvbDRpdg%3D%3D&utm_source=qr"
+            target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+            class="w-9 h-9 rounded-full border border-black/15 flex items-center justify-center hover:border-[#000000] hover:text-[#000000] text-black">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+              <circle cx="12" cy="12" r="5"></circle>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/share/1EA3zYHozg/" target="_blank" rel="noopener noreferrer"
+            aria-label="Facebook"
+            class="w-9 h-9 rounded-full border border-black/15 flex items-center justify-center hover:border-[#000000] hover:text-[#000000] text-black">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H16.7V3.7C16.4 3.66 15.4 3.6 14.2 3.6c-2.5 0-4.2 1.5-4.2 4.3v2h-2.7v3.1h2.7v8h2.5z">
+              </path>
+            </svg>
+          </a>
+        </div>
+        <p class="text-xs text-[var(--mute)]" data-i18n="footerCopy">© 2026 Codela. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- MODAL -->
+  <!-- ============================================================ -->
+  <div id="clientModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4 bg-black/50 backdrop-blur-sm">
+    <div class="w-full max-w-md bg-[#FFFFFF] border border-black/10 rounded-3xl p-6 md:p-8 relative">
+      <button onclick="closeModal()"
+        class="absolute left-5 top-5 w-8 h-8 rounded-full border border-black/15 flex items-center justify-center hover:border-[#000000] hover:text-[#000000] text-black">✕</button>
+
+      <h3 class="display font-black text-2xl mb-1 text-black" data-i18n="modalTitle">ابدأ مشروعك مع Codela</h3>
+      <p class="text-[var(--mute)] text-sm mb-5" data-i18n="modalSub">احكيلنا عن مشروعك وفريقنا هيتواصل معاك.</p>
+
+      <div class="flex items-center justify-between text-xs mb-2">
+        <span id="stepLabel" class="text-[#000000] font-bold">١ / ٦</span>
+      </div>
+      <div class="progress-bar mb-6">
+        <div id="progressFill" class="progress-fill" style="width:16.6%"></div>
+      </div>
+
+      <form id="clientForm">
+
+        <!-- حقول مخفية للقيم اللي بتتعمل بالـ Choice Pills -->
+        <input type="hidden" name="selected_service" id="inputService">
+        <input type="hidden" name="selected_goal" id="inputGoal">
+
+        <div class="step-panel active" data-step="1">
+          <p class="display font-black text-[#000000] mb-1">01.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q1">إيه اسم مشروعك أو شركتك؟ <span
+              class="text-[#000000]">*</span></label>
+          <input type="text" name="project_name" required
+            class="w-full rounded-xl px-4 py-3.5 text-sm bg-[#FFFFFF] border border-[#E5E5E5] text-black"
+            data-i18n-placeholder="q1Placeholder" placeholder="اسم المشروع / الشركة">
+        </div>
+
+        <div class="step-panel" data-step="2">
+          <p class="display font-black text-[#000000] mb-1">02.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q2">محتاج أنهي خدمة؟ <span
+              class="text-[#000000]">*</span></label>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'موقع تعريفي')" data-i18n="q2opt1">موقع تعريفي</div>
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'نظام أونلاين')" data-i18n="q2opt2">نظام أونلاين</div>
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'نظام أوفلاين')" data-i18n="q2opt3">نظام أوفلاين</div>
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'تصميم جرافيك')" data-i18n="q2opt4">تصميم جرافيك</div>
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'سوشيال ميديا')" data-i18n="q2opt5">سوشيال ميديا</div>
+            <div class="choice-pill rounded-xl px-3 py-3 text-center cursor-pointer"
+              onclick="selectPill(this, 'inputService', 'حاجة تانية')" data-i18n="q2opt6">حاجة تانية</div>
+          </div>
+        </div>
+
+        <div class="step-panel" data-step="3">
+          <p class="display font-black text-[#000000] mb-1">03.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q3">الميزانية التقريبية؟</label>
+          <select name="budget"
+            class="w-full rounded-xl px-4 py-3.5 text-sm bg-[#FFFFFF] border border-[#E5E5E5] text-black">
+            <option value="أقل من 20 ألف جنيه" data-i18n="q3opt1">أقل من 20 ألف جنيه</option>
+            <option value="20 - 50 ألف جنيه" data-i18n="q3opt2">20 - 50 ألف جنيه</option>
+            <option value="50 - 100 ألف جنيه" data-i18n="q3opt3">50 - 100 ألف جنيه</option>
+            <option value="أكتر من 100 ألف جنيه" data-i18n="q3opt4">أكتر من 100 ألف جنيه</option>
+          </select>
+        </div>
+
+        <div class="step-panel" data-step="4">
+          <p class="display font-black text-[#000000] mb-1">04.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q4">هدفك الأساسي إيه؟</label>
+          <div class="space-y-2 text-sm">
+            <div class="choice-pill rounded-xl px-4 py-3 cursor-pointer"
+              onclick="selectPill(this, 'inputGoal', 'موقع احترافي يعكس هوية البراند')" data-i18n="q4opt1">موقع احترافي
+              يعكس هوية
+              البراند</div>
+            <div class="choice-pill rounded-xl px-4 py-3 cursor-pointer"
+              onclick="selectPill(this, 'inputGoal', 'نظام يسهّل إدارة شغلي')" data-i18n="q4opt2">نظام يسهّل إدارة شغلي
+            </div>
+            <div class="choice-pill rounded-xl px-4 py-3 cursor-pointer"
+              onclick="selectPill(this, 'inputGoal', 'حضور رقمي متكامل (سوشيال + تصميم)')" data-i18n="q4opt3">حضور رقمي
+              متكامل (سوشيال + تصميم)</div>
+          </div>
+        </div>
+
+        <div class="step-panel" data-step="5">
+          <p class="display font-black text-[#000000] mb-1">05.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q5">رقم الموبايل / واتساب <span
+              class="text-[#000000]">*</span></label>
+          <input type="tel" name="phone" required
+            class="w-full rounded-xl px-4 py-3.5 text-sm bg-[#FFFFFF] border border-[#E5E5E5] text-black"
+            placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="step-panel" data-step="6">
+          <p class="display font-black text-[#000000] mb-1">06.</p>
+          <label class="block font-bold mb-3 text-black" data-i18n="q6">الإيميل <span
+              class="text-[#000000]">*</span></label>
+          <input type="email" name="email" required
+            class="w-full rounded-xl px-4 py-3.5 text-sm bg-[#FFFFFF] border border-[#E5E5E5] text-black"
+            placeholder="email@example.com">
+        </div>
+
+        <!-- شاشة النجاح الداخلية -->
+        <div class="step-panel" data-step="done">
+          <div class="text-center py-4">
+            <div class="w-14 h-14 rounded-full bg-[#000000] flex items-center justify-center mx-auto mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h4 class="display font-black text-xl mb-2 text-black" data-i18n="doneTitle">تم الإرسال بنجاح!</h4>
+            <p class="text-[var(--mute)] text-sm" data-i18n="doneSub">فريق Codela هيتواصل معاك خلال 24 ساعة.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 mt-8" id="formNav">
+          <button type="button" id="backBtn" onclick="prevStep()"
+            class="ghost-btn rounded-full px-5 py-3 text-sm hidden" data-i18n="btnBack">رجوع</button>
+          <button type="button" id="nextBtn" onclick="nextStep()" class="neon-btn rounded-full px-6 py-3 text-sm flex-1"
+            data-i18n="btnNext">التالي</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT -->
+  <!-- ============================================================ -->
+  <script>
+    /* ===================== i18n ===================== */
+    const translations = {
+      ar: {
+        metaTitle: "Codela | حلول رقمية متكاملة",
+        navServices: "الخدمات", navWork: "أعمالنا", navResults: "ليه Codela", navAbout: "من نحن", navContact: "تواصل معنا",
+        navCta: "ابدأ مشروعك",
+        heroBadge: "حلول رقمية متكاملة لبراندك",
+        heroLine1: "نحوّل أفكارك", heroLine3: "لحلول رقمية بتفرق",
+        heroDesc: "Social Media، تصميم جرافيك، مواقع ويب، وأنظمة إدارة أونلاين وأوفلاين — كل اللي محتاجه براندك تحت سقف واحد.",
+        heroCta1: "ابدأ مشروعك", heroCta2: "اعرف خدماتنا",
+        chipFacebook: "فيسبوك",
+        chipInstagram: "إنستغرام",
+        chipTikTok: "تيك توك",
+        clientsLabel: "عملائنا",
+        svcEyebrow: "إحنا مختلفين", svcTitle: "خدماتنا الأساسية، وعارفينها كويس",
+        svc1Title: "موقع ويب تعريفي",
+        svc1Desc: "نصمم لك موقعًا احترافيًا يعكس هوية نشاطك ويمنح عملاءك تجربة استخدام سريعة وسهلة على جميع الأجهزة، مع ربط مباشر بواتساب ونموذج تواصل وتحسينات أساسية لمحركات البحث.",
+        svc1Panel: "تصميم عصري متجاوب Responsive يشتغل ممتاز على الموبايل والتابلت والكمبيوتر، مع سرعة تحميل عالية وأساسيات SEO عشان موقعك يظهر في البحث، وربط مباشر بواتساب ونموذج تواصل جاهز يستقبل طلبات عملائك فورًا.",
+        svc2Title: "نظام أونلاين",
+        svc2Desc: "نظام إدارة كامل يشتغل أونلاين بلوحة تحكم احترافية وصلاحيات مستخدمين، يخليك تدير مبيعاتك ومخزونك لحظة بلحظة وتتابع شغلك من أي مكان وفي أي وقت، من الموبايل أو الكمبيوتر.",
+        svc2Panel: "إدارة بيانات مركزية، نسخ احتياطي تلقائي، ومتابعة لحظية للمخزون والمبيعات — كل حاجة في مكان واحد تقدر توصله من أي جهاز، عشان تدير مشروعك من أي مكان في أي وقت من غير ما تكون قاعد في المكتب.",
+        svc3Title: "نظام أوفلاين",
+        svc3Desc: "برنامج إدارة قوي ومستقر يشتغل على جهاز الكمبيوتر بدون إنترنت خالص — فواتير بيع وشراء، إدارة مخزون وعملاء وموردين، صلاحيات مستخدمين، وتقارير يومية وشهرية وسنوية بقاعدة بيانات محلية.",
+        svc3Panel: "مناسب لأي نشاط محتاج نظام إدارة ثابت وموثوق من غير قلق الإنترنت: نظام بحث سريع، إضافة وخصم كميات، متابعة الكميات لحظيًا، وتقارير مفصّلة تساعدك تاخد قرارات صح بسرعة.",
+        workEyebrow: "أعمالنا", workTitle: "كل مشروع بنشتغل عليه بجدية",
+        workDesc: "من الموقع التعريفي البسيط لأنظمة الإدارة المتكاملة، بنحول احتياجك لحل رقمي شغال وسهل الاستخدام.",
+        workCat1Title: "مواقع ويب تعريفية", workCat1Desc: "مواقع احترافية متجاوبة، سريعة التحميل، ومترابطة مع واتساب ونموذج تواصل.",
+        workCat2Title: "أنظمة أونلاين وأوفلاين", workCat2Desc: "لوحات تحكم كاملة أونلاين لإدارة المبيعات والمخزون من أي مكان، وبرامج مكتبية قوية أوفلاين للفواتير والمخزون والتقارير، تشتغل من غير إنترنت خالص.",
+        workCat3Title: "سوشيال ميديا وجرافيك ديزاين", workCat3Desc: "محتوى فيرال جذاب، تصاميم بصرية احترافية، وإدارة شاملة لحسابات السوشيال ميديا لتعزيز انتشار براندك.",
+        whyEyebrow: "ليه Codela", whyTitle: "من التحدي للحل",
+        beforeLabel: "التحدي", afterLabel: "الحل",
+        why1Name: "موقع ويب تعريفي", why1Before: "عملاء بيدوروا عليك ومش لاقيين موقع يمثلك", why1After: "موقع احترافي متجاوب يوصلهم بيك بسهولة",
+        why2Name: "نظام أونلاين", why2Before: "تقدر تدير شغلك من مكان واحد بس", why2After: "تابع مبيعاتك ومخزونك من أي مكان وأي وقت",
+        why3Name: "نظام أوفلاين", why3Before: "فواتير وتقارير يدوية بتضيع وقتك ودقتك", why3After: "نظام واحد يدير المبيعات والمخزون والتقارير بدقة",
+        pillar1: "Social + Design", pillar1Sub: "هوية بصرية وحضور رقمي متكامل",
+        pillar2: "Web & Online", pillar2Sub: "مواقع وأنظمة إدارة أونلاين",
+        pillar3: "Offline Systems", pillar3Sub: "برامج إدارة تشتغل بدون إنترنت",
+        aboutEyebrow: "من إحنا", aboutTitle: "Codela لحلولك الرقمية",
+        aboutBody: "Codela شركة متخصصة في مساعدة الشركات والأفراد على بناء حضور رقمي متكامل: من إدارة السوشيال ميديا والتصميم الجرافيكي، لتصميم المواقع الاحترافية، لأنظمة الإدارة الأونلاين والأوفلاين. بنحول احتياجاتك التقنية لحلول عملية وسهلة الاستخدام تناسب طبيعة شغلك.",
+        footerTag: "حلول رقمية متكاملة. نتايج حقيقية.",
+        footerCta: "ابدأ مشروعك مع Codela",
+        footerCopy: "© 2026 Codela. جميع الحقوق محفوظة.",
+        modalTitle: "ابدأ مشروعك مع Codela", modalSub: "احكيلنا عن مشروعك وفريقنا هيتواصل معاك.",
+        q1: "إيه اسم مشروعك أو شركتك؟ *", q1Placeholder: "اسم المشروع / الشركة",
+        q2: "محتاج أنهي خدمة؟ *",
+        q2opt1: "موقع تعريفي", q2opt2: "نظام أونلاين", q2opt3: "نظام أوفلاين", q2opt4: "تصميم جرافيك", q2opt5: "سوشيال ميديا", q2opt6: "حاجة تانية",
+        q3: "الميزانية التقريبية؟",
+        q3opt1: "أقل من 20 ألف جنيه", q3opt2: "20 - 50 ألف جنيه", q3opt3: "50 - 100 ألف جنيه", q3opt4: "أكتر من 100 ألف جنيه",
+        q4: "هدفك الأساسي إيه؟",
+        q4opt1: "موقع احترافي يعكس هوية البراند", q4opt2: "نظام يسهّل إدارة شغلي", q4opt3: "حضور رقمي متكامل (سوشيال + تصميم)",
+        q5: "رقم الموبايل / واتساب *", q6: "الإيميل *",
+        doneTitle: "تم الإرسال بنجاح!", doneSub: "فريق Codela هيتواصل معاك خلال 24 ساعة.",
+        btnBack: "رجوع", btnNext: "التالي"
+      },
+      en: {
+        metaTitle: "Codela | Complete Digital Solutions",
+        navServices: "Services", navWork: "Our Work", navResults: "Why Codela", navAbout: "About Us", navContact: "Contact",
+        navCta: "Start Your Project",
+        heroBadge: "Complete digital solutions for your brand",
+        heroLine1: "We turn your ideas", heroLine3: "into digital solutions that matter",
+        heroDesc: "Social media, graphic design, web design, and online & offline management systems — everything your brand needs, under one roof.",
+        heroCta1: "Start Your Project", heroCta2: "See Our Services",
+        chipFacebook: "Facebook",
+        chipInstagram: "Instagram",
+        chipTikTok: "TikTok",
+        clientsLabel: "Our Clients",
+        svcEyebrow: "What sets us apart", svcTitle: "Our core services, done right",
+        svc1Title: "Business Website",
+        svc1Desc: "A professional website that reflects your brand identity and gives your customers a fast, easy experience on every device — with direct WhatsApp integration, a contact form, and essential SEO foundations.",
+        svc1Panel: "Modern, responsive design that works flawlessly on mobile, tablet and desktop, fast load times, essential SEO so people can find you, and a ready contact form plus WhatsApp link that captures leads instantly.",
+        svc2Title: "Online Management System",
+        svc2Desc: "A complete online management system with a professional dashboard and user permissions — manage your sales and inventory in real time, and follow your business from anywhere, anytime, on mobile or desktop.",
+        svc2Panel: "Centralized data management, automatic backups, and real-time tracking of inventory and sales — everything in one place, accessible from any device, so you can run your business from anywhere, anytime.",
+        svc3Title: "Offline Management System",
+        svc3Desc: "A powerful, stable desktop program that works fully without internet — sales & purchase invoices, inventory, customers and suppliers, user permissions, and daily/monthly/yearly reports on a local database.",
+        svc3Panel: "Built for businesses that need a reliable, always-available system with no internet dependency: fast search, adding and deducting stock, real-time quantity tracking, and detailed reports for faster decisions.",
+        workEyebrow: "Our Work", workTitle: "Every project, built with care",
+        workDesc: "From a simple business website to a full management system, we turn your needs into a working, easy-to-use digital solution.",
+        workCat1Title: "Business Websites", workCat1Desc: "Professional, responsive, fast-loading websites connected to WhatsApp and a contact form.",
+        workCat2Title: "Online & Offline Systems", workCat2Desc: "Full online dashboards for sales and inventory from anywhere, and powerful offline desktop software for invoices, inventory and reports — fully offline.",
+        workCat3Title: "Social Media & Graphic Design", workCat3Desc: "Viral content, professional visual designs, and full social media account management to boost your brand.",
+        whyEyebrow: "Why Codela", whyTitle: "From challenge to solution",
+        beforeLabel: "Challenge", afterLabel: "Solution",
+        why1Name: "Business Website", why1Before: "Customers look for you and can't find a site that represents you", why1After: "A professional, responsive website that reaches them easily",
+        why2Name: "Online System", why2Before: "You can only manage your business from one place", why2After: "Track sales and inventory from anywhere, anytime",
+        why3Name: "Offline System", why3Before: "Manual invoices and reports waste your time and accuracy", why3After: "One system to manage sales, inventory and reports precisely",
+        pillar1: "Social + Design", pillar1Sub: "Visual identity and complete digital presence",
+        pillar2: "Web & Online", pillar2Sub: "Websites and online management systems",
+        pillar3: "Offline Systems", pillar3Sub: "Management software that works without internet",
+        aboutEyebrow: "About Us", aboutTitle: "Codela, for your digital solutions",
+        aboutBody: "Codela helps businesses and individuals build a complete digital presence: from social media management and graphic design, to professional website design, to online and offline management systems. We turn your technical needs into practical, easy-to-use solutions that fit the way you work.",
+        footerTag: "Complete digital solutions. Real results.",
+        footerCta: "Start Your Project with Codela",
+        footerCopy: "© 2026 Codela. All rights reserved.",
+        modalTitle: "Start Your Project with Codela", modalSub: "Tell us about your project and our team will get in touch.",
+        q1: "What's your project or company name? *", q1Placeholder: "Project / Company name",
+        q2: "Which service do you need? *",
+        q2opt1: "Business Website", q2opt2: "Online System", q2opt3: "Offline System", q2opt4: "Graphic Design", q2opt5: "Social Media", q2opt6: "Something Else",
+        q3: "Approximate budget?",
+        q3opt1: "Under 20,000 EGP", q3opt2: "20,000 - 50,000 EGP", q3opt3: "50,000 - 100,000 EGP", q3opt4: "Over 100,000 EGP",
+        q4: "What's your main goal?",
+        q4opt1: "A professional site reflecting my brand", q4opt2: "A system that simplifies managing my business", q4opt3: "A complete digital presence (social + design)",
+        q5: "Phone / WhatsApp number *", q6: "Email *",
+        doneTitle: "Submitted successfully!", doneSub: "The Codela team will contact you within 24 hours.",
+        btnBack: "Back", btnNext: "Next"
+      }
+    };
+
+    function applyTranslations(lang) {
+      const dict = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) {
+          if (el.children.length === 0) {
+            el.textContent = dict[key];
+          } else {
+            // Replace text in the first text node only
+            for (const node of el.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                node.textContent = dict[key] + ' ';
+                break;
+              }
+            }
+            // If no text node found, insert one
+            if (![...el.childNodes].some(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0)) {
+              el.insertBefore(document.createTextNode(dict[key] + ' '), el.firstChild);
+            }
+          }
+        }
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+      });
+      document.title = dict.metaTitle;
+    }
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      const btn = document.getElementById('langToggleBtn');
+      if (btn) btn.textContent = lang === 'ar' ? 'EN' : 'AR';
+      applyTranslations(lang);
+      localStorage.setItem('codela_lang', lang);
+    }
+
+    function toggleLanguage() {
+      const current = document.documentElement.lang === 'ar' ? 'ar' : 'en';
+      setLanguage(current === 'ar' ? 'en' : 'ar');
+    }
+
+    setLanguage(localStorage.getItem('codela_lang') || 'ar');
+
+    /* ===================== rest of the site behavior ===================== */
+
+    const glow = document.getElementById('mouseGlow');
+    window.addEventListener('mousemove', (e) => {
+      if (glow) { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('in'); });
+    }, { threshold: .15 });
+    document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+
+    function toggleService(id) {
+      const row = document.querySelector('.service-row[data-service="' + id + '"]');
+      const panel = document.getElementById('svc-panel-' + id);
+
+      if (!row || !panel) return;
+
+      const isOpen = panel.classList.contains('open');
+
+      document.querySelectorAll('.service-panel.open').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.service-row.open').forEach(r => { r.classList.remove('open'); r.setAttribute('aria-expanded', 'false'); });
+
+      if (!isOpen) {
+        panel.classList.add('open');
+        row.classList.add('open');
+        row.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function rotateCarousel(btn, dir) {
+      const wrap = btn.closest('.video-strip-wrap');
+      if (!wrap) return;
+      const strip = wrap.querySelector('.video-strip');
+      const cards = Array.from(strip.querySelectorAll('.video-wrap'));
+      const dots = Array.from(wrap.querySelectorAll('.video-dot'));
+
+      let activeIdx = cards.findIndex(c => c.classList.contains('card-active'));
+      let newActive = (activeIdx + dir + cards.length) % cards.length;
+
+      cards.forEach((card, i) => {
+        card.classList.remove('card-prev', 'card-active', 'card-next');
+        const rel = (i - newActive + cards.length) % cards.length;
+        if (rel === 0) card.classList.add('card-active');
+        else if (rel === 1) card.classList.add('card-next');
+        else card.classList.add('card-prev');
+      });
+
+      dots.forEach((d, i) => d.classList.toggle('active', i === newActive));
+    }
+
+    const steps = ['1', '2', '3', '4', '5', '6', 'done'];
+    let currentStep = 0;
+    const totalSteps = 6;
+
+    function openModal() {
+      const modal = document.getElementById('clientModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        resetForm();
+      }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('clientModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+      resetForm();
+    }
+
+    function resetForm() {
+      currentStep = 0;
+      const form = document.getElementById('clientForm');
+      if (form) form.reset();
+      document.querySelectorAll('.choice-pill').forEach(p => p.classList.remove('selected'));
+      updateStep();
+    }
+
+    function updateStep() {
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.querySelector('.step-panel[data-step="' + steps[currentStep] + '"]');
+      if (panel) panel.classList.add('active');
+
+      const isDone = steps[currentStep] === 'done';
+      const total = totalSteps;
+      const lang = document.documentElement.lang;
+      const arabicNums = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      function toArabic(n) { return String(n).split('').map(d => arabicNums[d]).join(''); }
+      function fmt(n) { return lang === 'ar' ? toArabic(n) : String(n); }
+
+      const stepLabel = document.getElementById('stepLabel');
+      const progressFill = document.getElementById('progressFill');
+
+      if (stepLabel) {
+        if (!isDone) {
+          stepLabel.textContent = fmt(currentStep + 1) + ' / ' + fmt(total);
+        }
+      }
+
+      if (progressFill) {
+        if (!isDone) {
+          progressFill.style.width = ((currentStep + 1) / total * 100) + '%';
+        } else {
+          progressFill.style.width = '100%';
+        }
+      }
+
+      const dict = translations[lang] || translations.ar;
+      const backBtn = document.getElementById('backBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (backBtn) backBtn.classList.toggle('hidden', currentStep === 0 || isDone);
+
+      if (nextBtn) {
+        if (isDone) {
+          nextBtn.textContent = lang === 'ar' ? 'إغلاق' : 'Close';
+          nextBtn.onclick = closeModal;
+        } else if (currentStep === total - 1) {
+          nextBtn.textContent = lang === 'ar' ? 'إرسال' : 'Submit';
+          nextBtn.onclick = nextStep;
+        } else {
+          nextBtn.textContent = dict.btnNext;
+          nextBtn.onclick = nextStep;
+        }
+      }
+    }
+
+    function nextStep() {
+      const activePanel = document.querySelector('.step-panel.active');
+      if (!activePanel) return;
+
+      const requiredInput = activePanel.querySelector('[required]');
+      if (requiredInput && !requiredInput.value.trim()) {
+        requiredInput.focus();
+        requiredInput.style.borderColor = '#ff4d4d';
+        setTimeout(() => { requiredInput.style.borderColor = ''; }, 900);
+        return;
+      }
+
+      if (currentStep === totalSteps - 1) {
+        submitFormToFormspree();
+        return;
+      }
+
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateStep();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        updateStep();
+      }
+    }
+
+    function selectPill(el, inputId, val) {
+      const parent = el.parentElement;
+      if (parent) {
+        parent.querySelectorAll('.choice-pill').forEach(p => p.classList.remove('selected'));
+      }
+      el.classList.add('selected');
+      if (inputId) {
+        const input = document.getElementById(inputId);
+        if (input) input.value = val;
+      }
+    }
+
+    function submitFormToFormspree() {
+      const form = document.getElementById('clientForm');
+      if (!form) return;
+
+      const formData = new FormData(form);
+      const nextBtn = document.getElementById('nextBtn');
+      const lang = document.documentElement.lang;
+
+      if (nextBtn) {
+        nextBtn.disabled = true;
+        nextBtn.textContent = lang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
+      }
+
+      fetch('https://formspree.io/f/mljrogbq', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (nextBtn) nextBtn.disabled = false;
+        if (response.ok) {
+          currentStep++;
+          updateStep();
+        } else {
+          const msg = lang === 'ar' ? 'حدث خطأ أثناء الإرسال، برجاء المحاولة مرة أخرى.' : 'An error occurred, please try again.';
+          alert(msg);
+        }
+      }).catch(error => {
+        if (nextBtn) nextBtn.disabled = false;
+        const msg = lang === 'ar' ? 'فشل الاتصال بالإنترنت، تأكد من الاتصال وحاول مرة أخرى.' : 'Connection failed, please check your internet and try again.';
+        alert(msg);
+      });
+    }
+
+    // Event listeners
+    const form = document.getElementById('clientForm');
+    if (form) form.addEventListener('submit', (e) => e.preventDefault());
+
+    const modal = document.getElementById('clientModal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target.id === 'clientModal') closeModal();
+      });
+    }
+
+    updateStep();
+  </script>
+
+</body>
+
+</html>
