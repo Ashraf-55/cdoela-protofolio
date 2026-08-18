@@ -368,7 +368,7 @@
       border-radius: 4px;
     }
 
-    /* media placeholder (drop your own screenshots here) */
+    /* media placeholder */
     .media-slot {
       width: 100%;
       height: 100%;
@@ -606,7 +606,7 @@
       color: #000000;
     }
 
-    /* ===== LTR (English) alignment fixes — same design, mirrored direction ===== */
+    /* ===== LTR (English) alignment fixes ===== */
     html[dir="ltr"] .align-flip {
       text-align: left;
     }
@@ -619,14 +619,13 @@
       justify-content: flex-start;
     }
 
-    /* video responsive fix */
     .media-slot video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    /* ===== Hero Videos - أكثر وضوحاً ===== */
+    /* ===== Hero Videos ===== */
     .hero-video-wrapper {
       border-radius: 24px;
       overflow: hidden;
@@ -658,7 +657,6 @@
       border-radius: 24px;
     }
 
-    /* تحسين ظهور الفيديوهات على الشاشات الصغيرة */
     @media (max-width: 1024px) {
       .hero-video-wrapper {
         border-radius: 16px;
@@ -720,12 +718,8 @@
       }
     }
 
-    /* ============================================================ */
-    /* ===== التعديلات المطلوبة للشاشات تحت 768px (المطلوبة) ===== */
-    /* ============================================================ */
+    /* ===== التعديلات المطلوبة للشاشات تحت 768px ===== */
     @media (max-width: 768px) {
-
-      /* 1. ضبط الحاوية الرئيسية للهيرو لتجنب التداخل */
       .hero-section {
         display: flex;
         flex-direction: column;
@@ -734,13 +728,11 @@
         text-align: center;
       }
 
-      /* 2. تصغير حجم الخطوط العريضة لتدخل بشكل مناسب في شاشة الموبايل */
       .hero-title {
         font-size: 1.5rem !important;
         line-height: 1.4;
       }
 
-      /* 3. منع تداخل الأزرار وترتيبها تحت بعضها */
       .hero-buttons {
         display: flex;
         flex-direction: column;
@@ -756,7 +748,6 @@
         max-width: 280px;
       }
 
-      /* 4. ضبط صندوق الخدمات الأبيض وتجنب خروجه عن الشاشة */
       .services-card-mobile {
         width: 92% !important;
         margin: 0 auto;
@@ -768,10 +759,9 @@
     }
 
     /* ============================================================ */
-    /* ===== قائمة الموبايل (Hamburger Menu) ===== */
+    /* ===== قائمة الموبايل (Hamburger Menu) - مُحسَّن ===== */
     /* ============================================================ */
 
-    /* إخفاء زر القائمة افتراضياً في الديسكتوب */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -782,6 +772,7 @@
       background: transparent;
       border: none;
       padding: 0;
+      transition: transform 0.3s ease;
     }
 
     .menu-toggle span {
@@ -791,22 +782,22 @@
       background-color: #333;
       border-radius: 3px;
       transition: 0.3s ease;
+      transform-origin: center;
     }
 
-    /* تحويل زر الهامبرغر إلى X عند الفتح */
     .menu-toggle.open span:nth-child(1) {
       transform: translateY(9px) rotate(45deg);
     }
 
     .menu-toggle.open span:nth-child(2) {
       opacity: 0;
+      transform: scaleX(0);
     }
 
     .menu-toggle.open span:nth-child(3) {
       transform: translateY(-9px) rotate(-45deg);
     }
 
-    /* ===== إعدادات الشاشات الصغيرة (الموبايل) ===== */
     @media (max-width: 768px) {
       .menu-toggle {
         display: flex;
@@ -814,7 +805,6 @@
         position: relative;
       }
 
-      /* القائمة المخفية */
       .nav-links {
         position: fixed;
         top: 0;
@@ -826,28 +816,27 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 24px;
-        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+        gap: 20px;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
         transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: 1000;
-        padding: 2rem;
+        padding: 2.5rem 1.5rem;
         border-left: 1px solid rgba(0, 0, 0, 0.06);
+        overflow-y: auto;
       }
 
-      /* عندما تفتح القائمة */
       .nav-links.active {
         right: 0;
       }
 
-      /* تنسيق الروابط داخل القائمة */
       .nav-links a {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         font-weight: 600;
         color: #111;
         text-decoration: none;
-        padding: 8px 0;
-        border-bottom: 1px solid transparent;
-        transition: all 0.2s ease;
+        padding: 10px 0;
+        border-bottom: 2px solid transparent;
+        transition: all 0.25s ease;
         width: 100%;
         text-align: center;
       }
@@ -857,16 +846,15 @@
         border-bottom-color: #000;
       }
 
-      /* زر تبديل اللغة داخل القائمة */
       .nav-links .lang-btn {
-        margin-top: 8px;
-        padding: 8px 24px;
+        margin-top: 10px;
+        padding: 10px 28px;
         border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 40px;
         font-size: 0.9rem;
         background: transparent;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.25s ease;
         width: auto;
       }
 
@@ -875,26 +863,26 @@
         background: rgba(0, 0, 0, 0.04);
       }
 
-      /* إخفاء الروابط الأصلية في الهيدر على الموبايل */
       header .nav-links:not(.mobile-nav) .nav-link {
         display: none;
       }
 
-      /* تعديل الـ header عشان يستوعب الزر */
       header nav {
         position: relative;
         z-index: 1002;
       }
 
-      /* طبقة خلفية داكنة عند فتح القائمة */
+      /* Overlay - طبقة التعتيم */
       .nav-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.4);
         z-index: 999;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.35s ease;
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
       }
 
       .nav-overlay.active {
@@ -903,27 +891,32 @@
       }
     }
 
-    /* إخفاء زر تبديل اللغة الموجود في الهيدر على الموبايل */
     @media (max-width: 768px) {
       header .flex.items-center.gap-2 .ghost-btn {
         display: none !important;
       }
     }
 
-    /* ===== Overlay للقائمة ===== */
     .nav-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.4);
       z-index: 999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.35s ease;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
     }
 
     .nav-overlay.active {
       opacity: 1;
       pointer-events: all;
+    }
+
+    /* ===== Smooth Scroll ===== */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -959,7 +952,6 @@
         <a href="#results" class="nav-link text-sm" data-i18n="navResults">ليه Codela</a>
         <a href="#about" class="nav-link text-sm" data-i18n="navAbout">من نحن</a>
         <a href="#footer" class="nav-link text-sm" data-i18n="navContact">تواصل معنا</a>
-        <!-- زر تبديل اللغة داخل القائمة (يظهر على الموبايل) -->
         <button class="lang-btn hidden max-sm:block ghost-btn rounded-full px-4 py-2 text-xs"
           onclick="toggleLanguage()">EN</button>
       </div>
@@ -973,7 +965,7 @@
           ابدأ مشروعك
         </button>
 
-        <!-- ===== زر الهامبرغر (يظهر فقط على الموبايل) ===== -->
+        <!-- ===== زر الهامبرغر ===== -->
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
           <span></span>
           <span></span>
@@ -984,16 +976,14 @@
   </header>
 
   <!-- ============================================================ -->
-  <!-- HERO - الفيديوهات أوضح وأكبر -->
+  <!-- HERO -->
   <!-- ============================================================ -->
   <section class="relative min-h-screen flex items-center overflow-hidden px-4 md:px-12 pt-24 pb-12" id="heroSection"
     style="background-color: #FFFFFF;">
 
-    <!-- خلفية بصرية بالفيديوهات -->
     <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
       <div class="absolute inset-0 flex justify-center items-center gap-6 max-w-7xl mx-auto px-4 opacity-80">
 
-        <!-- الفيديو الأول - يسار -->
         <div class="hidden lg:block hero-video-wrapper w-[280px] h-[520px] transform -rotate-6 translate-y-8">
           <div class="media-slot w-full h-full relative">
             <video autoplay loop muted playsinline class="w-full h-full object-cover">
@@ -1002,7 +992,6 @@
           </div>
         </div>
 
-        <!-- الفيديو الثاني - المنتصف (الأكبر) -->
         <div class="hero-video-wrapper w-full lg:w-[340px] h-[580px] z-10 shadow-2xl">
           <div class="media-slot w-full h-full relative">
             <video autoplay loop muted playsinline class="w-full h-full object-cover">
@@ -1011,7 +1000,6 @@
           </div>
         </div>
 
-        <!-- الفيديو الثالث - يمين -->
         <div class="hidden lg:block hero-video-wrapper w-[280px] h-[520px] transform rotate-6 translate-y-8">
           <div class="media-slot w-full h-full relative">
             <video autoplay loop muted playsinline class="w-full h-full object-cover">
@@ -1025,7 +1013,6 @@
       <div class="absolute inset-0 bg-gradient-to-b from-[#FFFFFF]/20 via-transparent to-[#FFFFFF]/80"></div>
     </div>
 
-    <!-- المحتوى -->
     <div class="relative z-10 max-w-7xl w-full mx-auto align-flip items-flip flex flex-col items-start"
       style="text-align:right;">
 
@@ -1055,12 +1042,10 @@
         </div>
       </div>
 
-      <!-- ===== قسم إحصائيات المتابعين (تم التعديل) ===== -->
       <div
         class="fade-up flex items-center justify-start gap-8 bg-white/90 border border-black/10 px-8 py-4 rounded-2xl backdrop-blur-md flex-wrap shadow-sm"
         style="animation-delay:1.05s">
 
-        <!-- فيسبوك -->
         <div class="flex items-center gap-3 text-black">
           <span class="text-2xl">📱</span>
           <div class="text-right align-flip">
@@ -1071,7 +1056,6 @@
 
         <div class="w-px h-8 bg-black/20 hidden sm:block"></div>
 
-        <!-- إنستغرام -->
         <div class="flex items-center gap-3 text-black">
           <span class="text-2xl">🎨</span>
           <div class="text-right align-flip">
@@ -1082,7 +1066,6 @@
 
         <div class="w-px h-8 bg-black/20 hidden sm:block"></div>
 
-        <!-- تيك توك -->
         <div class="flex items-center gap-3 text-black">
           <span class="text-2xl">💻</span>
           <div class="text-right align-flip">
@@ -1252,7 +1235,6 @@
 
     <div class="work-services space-y-16">
 
-      <!-- القسم الأول: مواقع ويب تعريفية -->
       <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
         <div>
           <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat1Title">مواقع ويب
@@ -1303,7 +1285,6 @@
         </div>
       </div>
 
-      <!-- القسم الثاني: أنظمة أونلاين وأوفلاين (مدمجين في قسم واحد) -->
       <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
         <div>
           <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat2Title">أنظمة أونلاين
@@ -1355,7 +1336,6 @@
         </div>
       </div>
 
-      <!-- القسم الثالث: سوشيال ميديا وجرافيك ديزاين -->
       <div class="work-service-row grid md:grid-cols-2 gap-6 items-center">
         <div>
           <h3 class="display font-black text-2xl md:text-3xl mb-2 text-black" data-i18n="workCat3Title">سوشيال ميديا
@@ -1625,7 +1605,6 @@
 
       <form id="clientForm">
 
-        <!-- حقول مخفية للقيم اللي بتتعمل بالـ Choice Pills -->
         <input type="hidden" name="selected_service" id="inputService">
         <input type="hidden" name="selected_goal" id="inputGoal">
 
@@ -1705,7 +1684,6 @@
             placeholder="email@example.com">
         </div>
 
-        <!-- شاشة النجاح الداخلية -->
         <div class="step-panel" data-step="done">
           <div class="text-center py-4">
             <div class="w-14 h-14 rounded-full bg-[#000000] flex items-center justify-center mx-auto mb-4">
@@ -1884,10 +1862,18 @@
 
     setLanguage(localStorage.getItem('codela_lang') || 'ar');
 
-    /* ===================== Hamburger Menu ===================== */
+    /* ===================== Hamburger Menu - محسّن بالكامل ===================== */
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     const navOverlay = document.getElementById('navOverlay');
+
+    function closeMenu() {
+      navLinks.classList.remove('active');
+      menuToggle.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      if (navOverlay) navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
 
     function toggleMenu() {
       const isOpen = navLinks.classList.toggle('active');
@@ -1898,34 +1884,56 @@
     }
 
     if (menuToggle) {
-      menuToggle.addEventListener('click', toggleMenu);
+      menuToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
     }
 
-    // غلق القائمة عند الضغط على أي رابط جواها
+    // غلق القائمة عند الضغط على أي رابط داخلها (مع smooth scroll)
     if (navLinks) {
       navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('active');
-          menuToggle.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          if (navOverlay) navOverlay.classList.remove('active');
-          document.body.style.overflow = '';
+        link.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              closeMenu();
+              setTimeout(() => {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 300);
+            }
+          } else {
+            closeMenu();
+          }
         });
       });
     }
 
     // غلق القائمة عند الضغط على الـ overlay
     if (navOverlay) {
-      navOverlay.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        menuToggle.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        navOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+      navOverlay.addEventListener('click', function () {
+        closeMenu();
       });
     }
 
-    /* ===================== rest of the site behavior ===================== */
+    // غلق القائمة عند تغيير حجم الشاشة إلى ديسكتوب
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    // منع غلق القائمة عند الضغط داخلها
+    if (navLinks) {
+      navLinks.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
+
+    /* ===================== باقي وظائف الموقع ===================== */
 
     const glow = document.getElementById('mouseGlow');
     window.addEventListener('mousemove', (e) => {
@@ -2134,7 +2142,6 @@
       });
     }
 
-    // Event listeners
     const form = document.getElementById('clientForm');
     if (form) form.addEventListener('submit', (e) => e.preventDefault());
 
