@@ -766,10 +766,172 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       }
     }
+
+    /* ============================================================ */
+    /* ===== قائمة الموبايل (Hamburger Menu) ===== */
+    /* ============================================================ */
+
+    /* إخفاء زر القائمة افتراضياً في الديسكتوب */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: #333;
+      border-radius: 3px;
+      transition: 0.3s ease;
+    }
+
+    /* تحويل زر الهامبرغر إلى X عند الفتح */
+    .menu-toggle.open span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* ===== إعدادات الشاشات الصغيرة (الموبايل) ===== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+        z-index: 1001;
+        position: relative;
+      }
+
+      /* القائمة المخفية */
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        background-color: #ffffff;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+        transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+        padding: 2rem;
+        border-left: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      /* عندما تفتح القائمة */
+      .nav-links.active {
+        right: 0;
+      }
+
+      /* تنسيق الروابط داخل القائمة */
+      .nav-links a {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #111;
+        text-decoration: none;
+        padding: 8px 0;
+        border-bottom: 1px solid transparent;
+        transition: all 0.2s ease;
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-links a:hover {
+        color: #000;
+        border-bottom-color: #000;
+      }
+
+      /* زر تبديل اللغة داخل القائمة */
+      .nav-links .lang-btn {
+        margin-top: 8px;
+        padding: 8px 24px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 40px;
+        font-size: 0.9rem;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: auto;
+      }
+
+      .nav-links .lang-btn:hover {
+        border-color: #000;
+        background: rgba(0, 0, 0, 0.04);
+      }
+
+      /* إخفاء الروابط الأصلية في الهيدر على الموبايل */
+      header .nav-links:not(.mobile-nav) .nav-link {
+        display: none;
+      }
+
+      /* تعديل الـ header عشان يستوعب الزر */
+      header nav {
+        position: relative;
+        z-index: 1002;
+      }
+
+      /* طبقة خلفية داكنة عند فتح القائمة */
+      .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+
+      .nav-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    /* إخفاء زر تبديل اللغة الموجود في الهيدر على الموبايل */
+    @media (max-width: 768px) {
+      header .flex.items-center.gap-2 .ghost-btn {
+        display: none !important;
+      }
+    }
+
+    /* ===== Overlay للقائمة ===== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
   </style>
 </head>
 
 <body class="noise relative" style="background-color: #FFFFFF;">
+
+  <!-- Overlay للقائمة -->
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <div class="mouse-glow hidden md:block" id="mouseGlow"></div>
 
@@ -779,6 +941,8 @@
   <header class="sticky top-0 z-40 px-4 md:px-8 pt-4">
     <nav
       class="max-w-7xl mx-auto flex items-center justify-between bg-[#FFFFFF]/90 backdrop-blur-lg border border-black/10 rounded-full px-4 md:px-6 py-3">
+
+      <!-- الشعار -->
       <div class="flex items-center gap-2">
         <div class="w-9 h-9 rounded-full bg-[#000000] flex items-center justify-center">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -788,20 +952,32 @@
         <span class="display font-black text-lg tracking-tight hidden sm:inline" style="color:#000000;">Codela</span>
       </div>
 
-      <div class="hidden lg:flex items-center gap-8">
+      <!-- ===== الروابط (القائمة) ===== -->
+      <div class="nav-links hidden lg:flex items-center gap-8" id="navLinks">
         <a href="#services" class="nav-link active text-sm" data-i18n="navServices">الخدمات</a>
         <a href="#work" class="nav-link text-sm" data-i18n="navWork">أعمالنا</a>
         <a href="#results" class="nav-link text-sm" data-i18n="navResults">ليه Codela</a>
         <a href="#about" class="nav-link text-sm" data-i18n="navAbout">من نحن</a>
         <a href="#footer" class="nav-link text-sm" data-i18n="navContact">تواصل معنا</a>
+        <!-- زر تبديل اللغة داخل القائمة (يظهر على الموبايل) -->
+        <button class="lang-btn hidden max-sm:block ghost-btn rounded-full px-4 py-2 text-xs"
+          onclick="toggleLanguage()">EN</button>
       </div>
 
+      <!-- الأزرار الجانبية -->
       <div class="flex items-center gap-2">
         <button class="hidden md:inline-flex ghost-btn rounded-full px-4 py-2 text-xs" id="langToggleBtn"
           onclick="toggleLanguage()">EN</button>
         <button class="neon-btn rounded-full px-4 md:px-6 py-2.5 text-xs md:text-sm" onclick="openModal()"
           data-i18n="navCta">
           ابدأ مشروعك
+        </button>
+
+        <!-- ===== زر الهامبرغر (يظهر فقط على الموبايل) ===== -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </nav>
@@ -1673,14 +1849,12 @@
           if (el.children.length === 0) {
             el.textContent = dict[key];
           } else {
-            // Replace text in the first text node only
             for (const node of el.childNodes) {
               if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
                 node.textContent = dict[key] + ' ';
                 break;
               }
             }
-            // If no text node found, insert one
             if (![...el.childNodes].some(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0)) {
               el.insertBefore(document.createTextNode(dict[key] + ' '), el.firstChild);
             }
@@ -1709,6 +1883,47 @@
     }
 
     setLanguage(localStorage.getItem('codela_lang') || 'ar');
+
+    /* ===================== Hamburger Menu ===================== */
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function toggleMenu() {
+      const isOpen = navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      if (navOverlay) navOverlay.classList.toggle('active');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    if (menuToggle) {
+      menuToggle.addEventListener('click', toggleMenu);
+    }
+
+    // غلق القائمة عند الضغط على أي رابط جواها
+    if (navLinks) {
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          menuToggle.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          if (navOverlay) navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // غلق القائمة عند الضغط على الـ overlay
+    if (navOverlay) {
+      navOverlay.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
 
     /* ===================== rest of the site behavior ===================== */
 
