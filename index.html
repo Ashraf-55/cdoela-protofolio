@@ -1138,7 +1138,7 @@
           <span class="text-2xl">🎨</span>
           <div class="text-right align-flip">
             <strong class="block text-sm font-bold" data-i18n="chipInstagram">إنستغرام</strong>
-            <span class="text-xs text-black/60">12 متابع</span>
+            <span class="text-xs text-black/60">17 متابع</span>
           </div>
         </div>
 
@@ -1148,7 +1148,7 @@
           <span class="text-2xl">💻</span>
           <div class="text-right align-flip">
             <strong class="block text-sm font-bold" data-i18n="chipTikTok">تيك توك</strong>
-            <span class="text-xs text-black/60">339 متابع</span>
+            <span class="text-xs text-black/60">388 متابع</span>
           </div>
         </div>
 
@@ -1964,7 +1964,7 @@
 
     // زر الهامبرغر
     if (menuToggle) {
-      menuToggle.addEventListener('click', function(e) {
+      menuToggle.addEventListener('click', function (e) {
         e.stopPropagation();
         toggleMenu();
       });
@@ -1972,8 +1972,8 @@
 
     // ===== روابط القائمة =====
     if (navLinks) {
-      navLinks.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function(e) {
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
           var href = this.getAttribute('href');
 
           if (href && href.indexOf('#') === 0) {
@@ -1983,7 +1983,7 @@
 
             if (targetElement) {
               closeMenu();
-              setTimeout(function() {
+              setTimeout(function () {
                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }, 400);
             }
@@ -1998,20 +1998,20 @@
 
     // Overlay
     if (navOverlay) {
-      navOverlay.addEventListener('click', function() {
+      navOverlay.addEventListener('click', function () {
         closeMenu();
       });
     }
 
     // إغلاق عند تغيير حجم الشاشة
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
       if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('active')) {
         closeMenu();
       }
     });
 
     // إغلاق القائمة عند الضغط على زر Escape
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
         closeMenu();
       }
@@ -2019,7 +2019,7 @@
 
     // منع غلق القائمة عند الضغط داخلها
     if (navLinks) {
-      navLinks.addEventListener('click', function(e) {
+      navLinks.addEventListener('click', function (e) {
         e.stopPropagation();
       });
     }
@@ -2028,8 +2028,10 @@
 
     const glow = document.getElementById('mouseGlow');
     window.addEventListener('mousemove', (e) => {
-      if (glow) { glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px'; }
+      if (glow) {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+      }
     });
 
     const observer = new IntersectionObserver((entries) => {
